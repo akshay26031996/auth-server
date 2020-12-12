@@ -1,3 +1,4 @@
+## Tag 0.1
 1. Initialize the project.
 ```
 $ mkdir auth-server
@@ -34,3 +35,22 @@ tsc && node dist/app.js
 
 7. Create a basic express server to test.
 8. Start server using `npm start`.
+
+## Tag 0.2
+
+9. Add middleware to get request data using body-parser.
+```
+$ npm install --save body-parser
+```
+
+10. Setup the sign up router in `router/user.ts`.
+
+11. Install `bcrypt` for hashing of password.
+```
+$ npm install --save bcrypt
+$ npm install --save-dev @types/bcrypt
+```
+
+12. Setup a basic flow for user registeration. Will deal with storing in MongoDb later.
+
+13. Setup an empty login flow as well.
