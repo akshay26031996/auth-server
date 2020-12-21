@@ -1,28 +1,33 @@
-import express from 'express';
-import bcrypt from 'bcrypt';
+import express, { NextFunction } from 'express';
+import { User, IUserDoc } from '../model/user';
 
 const router = express.Router();
-const BCRYPT_SALT_ROUNDS = 12;
 
-router.post('/user/register', (req, res, next) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
-        .then(function (hashedPassword) {
-            res.send({ username, hashedPassword });
-        })
-        .then(function () {
-            res.send();
-        })
-        .catch(function (error) {
-            console.log("Error saving user: ");
-            console.log(error);
-            next();
-        });
+export interface IUserAuthRequest extends express.Request {
+    user: IUserDoc,
+    token: string
+}
+
+// should be in a seperate service file
+let auth = (req: IUserAuthRequest, res: express.Response, next: express.NextFunction) => {
+    let token = req.cookies.auth;
+    User.findByToken(token, (err, user) => {
+        if (err) throw err;
+        if (!user) {
+            return res.json({ error: true });
+        }
+        req.token = token;
+        req.user = user;
+        next();
+    });
+}
+
+
+export { router as userRouter };
+
+router.get('/user/profile', auth, (req: IUserAuthRequest, res) => {
+    res.json({
+        isAuth: true,
+        user: req.user
+    });
 });
-
-router.post('/login', (req, res, next) => {
-
-});
-
-export { router as userRouter }

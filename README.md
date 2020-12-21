@@ -54,3 +54,13 @@ $ npm install --save-dev @types/bcrypt
 12. Setup a basic flow for user registeration. Will deal with storing in MongoDb later.
 
 13. Setup an empty login flow as well.
+
+## Tag 0.3
+
+14. Install mongoose.
+```
+$ npm install --save mongoose
+$ npm install --save-dev @types/mongoose
+```
+
+15. Create user model in `model/user.ts`
